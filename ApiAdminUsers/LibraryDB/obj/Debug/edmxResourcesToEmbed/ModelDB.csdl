@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestJulius2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="post_id" />
+    </Key>
+    <Property Name="post_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="creationDate" Type="DateTime" Precision="3" />
+    <Property Name="images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="users_id" Type="Int32" />
+    <NavigationProperty Name="Users" Relationship="Self.fk_Post_User_ID" FromRole="Post" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="users_id" />
+    </Key>
+    <Property Name="users_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="user" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="Self.fk_Post_User_ID" FromRole="Users" ToRole="Post" />
+  </EntityType>
+  <Association Name="fk_Post_User_ID">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="users_id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="users_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestJulius2Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Post" EntityType="Self.Post" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <AssociationSet Name="fk_Post_User_ID" Association="Self.fk_Post_User_ID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

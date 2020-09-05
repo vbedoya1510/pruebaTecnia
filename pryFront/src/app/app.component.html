@@ -1,0 +1,8 @@
+<button type="button" class="btn btn-info" [routerLink]="['/news']" [disabled]="!isLogin">Show my news</button>
+<button type="button" class="btn btn-info" [routerLink]="['/create/news']" [disabled]="!isLogin">Create New</button>
+<router-outlet></router-outlet>
+
+<ng-container *ngIf="!isLogin">
+    <app-login (statusEmitter)="Login($event)"></app-login>
+    <app-sign-in></app-sign-in>
+</ng-container>

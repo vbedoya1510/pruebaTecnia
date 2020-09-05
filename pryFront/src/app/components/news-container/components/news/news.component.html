@@ -1,0 +1,46 @@
+
+<ng-container *ngIf="resultMessage!=''">
+  <div class="alert alert-info"><strong>Error! </strong>{{ resultMessage}}</div>
+</ng-container>
+<h1>Show all news</h1>
+
+<form>
+  <div class="form-group form-inline">
+      Search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="newsFilterService.searchTerm"/>
+      <span class="ml-3" *ngIf="newsFilterService.loading$ | async">Loading...</span>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col" sortable="title" (sort)="onSort($event)">Title</th>
+      <th scope="col" sortable="content" (sort)="onSort($event)">Content</th>
+      <th scope="col" >Image</th>
+      <th scope="col" >Creation date</th>
+      <th scope="col" ></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let new of news$ | async">
+      <td>
+        <ngb-highlight [result]="new.title" [term]="newsFilterService.searchTerm"></ngb-highlight>
+      </td>
+      <td><ngb-highlight [result]="new.content" [term]="newsFilterService.searchTerm"></ngb-highlight></td>
+      <td><img class="post_image" src="../../../../../assets/images/persona.jpg" alt="icono"></td>
+      <td><ngb-highlight [result]="new.creationDate| date: 'dd-MM-yyyy'"></ngb-highlight></td>
+      <td><button type="button" class="btn btn-secondary" (click)="Delete(new.post_id)">Delete</button></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination
+      [collectionSize]="(total$ | async)!" [(page)]="newsFilterService.page" [pageSize]="newsFilterService.pageSize">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="newsFilterService.pageSize">
+      <option [ngValue]="10">10 items per page</option>
+    </select>
+  </div>
+
+</form>

@@ -1,0 +1,45 @@
+<ng-container *ngIf="resultMessage!=''">
+  <div class="alert alert-info"><strong>Error! </strong>{{ resultMessage}}</div>
+</ng-container>
+<div id="news-row" class="row justify-content-center align-items-center">
+    <div id="news-column" class="col-md-6 col-md-offset-3">
+        <div id="login-box" class="col-md-12">
+            <form class="form" [formGroup]="newsForm">
+                <h3 class="text-center text-info">Post!!!</h3>
+                <div class="form-group">
+                    <label for="title" class="text-info">Title:</label><br>
+                    <input type="text" name="title" id="title" class="form-control" formControlName="title">
+                    <div *ngIf="title.touched && title.invalid">
+                      <small class="text-danger">
+                          field is required.
+                      </small>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="content" class="text-info">Content:</label><br>
+                    <textarea rows = "5" cols = "50" name="content" id="content" class="form-control" formControlName="content">
+                     </textarea>
+                    <div *ngIf="content.touched && content.invalid">
+                      <small class="text-danger">
+                          field is required.
+                      </small>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="image" class="text-info">Image</label><br>
+                    <input type="file" id="image"
+                        formControlName="image">
+                    <div *ngIf="image.touched && image.invalid">
+                        <small class="text-danger">
+                            field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <button [disabled]="newsForm.invalid" type="button" class="btn btn-info"
+                  (click)="submit()">Create</button>
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>

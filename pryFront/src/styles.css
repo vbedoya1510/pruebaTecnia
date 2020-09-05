@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+button.btn.btn-info {
+    margin: 10px;
+}
+
+.footer{
+    position: relative;
+    bottom: 20px;
+    right: 0px;
+    width: 100%;
+    color: #AAAAAA;
+    z-index: 4;
+    text-align: right;
+    margin-top: 200px;
+}
+
+img.post_image {
+    width: 50px;
+}
