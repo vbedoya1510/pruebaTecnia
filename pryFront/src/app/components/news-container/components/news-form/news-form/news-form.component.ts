@@ -80,7 +80,7 @@ export class NewsFormComponent implements OnInit {
         if(response){
           this.resultMessage = 'Post Creado con éxito';
         }else{
-          this.resultMessage = 'Error al crear el post';
+          this.resultMessage = 'Error al crear el post, es posible que su sesión haya expirado';
         }
       },
       (error) => {

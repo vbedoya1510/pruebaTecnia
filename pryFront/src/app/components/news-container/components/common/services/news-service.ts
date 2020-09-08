@@ -8,20 +8,21 @@ import { NewsModel } from '../models/news.model';
     providedIn: 'root',
   })
   export class NewsService {
-    constructor(private http: HttpClient) {}
+    token: string;
 
+    constructor(private http: HttpClient) {
+      this.token = localStorage.getItem('token');
+    }
 
-
-    getNews(data: any, token: string): Observable<any> {
-      // return this.http.post(environment.apiURLGetNews, data, {headers: new HttpHeaders({ "Authorization": "Bearer "+token})});
-      return this.http.post(environment.apiURLGetNews, data);
+    getNews(data: any): Observable<any> {
+      return this.http.post(environment.apiURLGetNews, {'user_id': data, 'token': this.token});
     }
 
     addNew(news: NewsModel): Observable<any> {
-      return this.http.post(environment.apiURLAddNew, news);
+      return this.http.post(environment.apiURLAddNew, {'post': news, 'token': this.token});
     }
 
     deleteNew(data: any): Observable<any> {
-      return this.http.post(environment.apiURLDeleteNew, data);
+      return this.http.post(environment.apiURLDeleteNew, {'post_id': data, 'token': this.token});
     }
   }

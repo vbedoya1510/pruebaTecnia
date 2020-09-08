@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,6 +55,42 @@ namespace WebApi.General
 
 
         }
+
+        public static bool ValidateToken(string authToken)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var validationParameters = GetValidationParameters();
+
+                SecurityToken validatedToken;
+                IPrincipal principal = tokenHandler.ValidateToken(authToken, validationParameters, out validatedToken);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        private static TokenValidationParameters GetValidationParameters()
+        {
+            string key = ConfigurationManager.AppSettings["KeyToken"].ToString();
+            var issuer = "http://mysite.com";
+            return new TokenValidationParameters()
+            {
+                ValidateLifetime = true,
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = issuer,
+                ValidAudience = issuer,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), // The same key as the one that generate the token
+                ClockSkew = TimeSpan.Zero
+            };
+        }
+
 
     }
 }

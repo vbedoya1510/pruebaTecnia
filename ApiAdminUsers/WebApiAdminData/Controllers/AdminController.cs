@@ -7,6 +7,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using WebApi.General;
 using WebApi.Model;
 
 namespace WApiAdmin.Controllers
@@ -43,42 +44,63 @@ namespace WApiAdmin.Controllers
         [Route("addPost")]
         [HttpPost]
        // [Authorize]
-        public ActionResult AddPost(Post post)
+        public ActionResult AddPost(Post post, string token)
         {
-            AdminUsers adminUsers = new AdminUsers();
-            var serializer = new JavaScriptSerializer();
-            var answer = new ContentResult();
-            answer.ContentType = "application/json";
-            answer.Content = serializer.Serialize(adminUsers.addPost(post));
-            return answer;
+            if (Security.ValidateToken(token))
+            {
+                AdminUsers adminUsers = new AdminUsers();
+                var serializer = new JavaScriptSerializer();
+                var answer = new ContentResult();
+                answer.ContentType = "application/json";
+                answer.Content = serializer.Serialize(adminUsers.addPost(post));
+                return answer;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         [Route("deletePost")]
         [HttpPost]
        // [Authorize]
-        public ActionResult deletePost(int post_id)
+        public ActionResult deletePost(int post_id, string token)
         {
-            AdminUsers adminUsers = new AdminUsers();
-            var serializer = new JavaScriptSerializer();
-            var answer = new ContentResult();
-            answer.ContentType = "application/json";
-            answer.Content = serializer.Serialize(adminUsers.deletePost(post_id));
-            return answer;
+            if (Security.ValidateToken(token))
+            {
+                AdminUsers adminUsers = new AdminUsers();
+                var serializer = new JavaScriptSerializer();
+                var answer = new ContentResult();
+                answer.ContentType = "application/json";
+                answer.Content = serializer.Serialize(adminUsers.deletePost(post_id));
+                return answer;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         [Route("getPost")]
         [HttpPost]
         // [Authorize]
-        public ActionResult getPost(string user_id)
+        public ActionResult getPost(string user_id, string token)
         {
-            int userAux = Int32.Parse(user_id);
+            if (Security.ValidateToken(token))
+            {
+                int userAux = Int32.Parse(user_id);
 
-            AdminUsers adminUsers = new AdminUsers();
-            var serializer = new JavaScriptSerializer();
-            var answer = new ContentResult();
-            answer.ContentType = "application/json";
-            answer.Content = serializer.Serialize(adminUsers.getPost(userAux));
-            return answer;
+                AdminUsers adminUsers = new AdminUsers();
+                var serializer = new JavaScriptSerializer();
+                var answer = new ContentResult();
+                answer.ContentType = "application/json";
+                answer.Content = serializer.Serialize(adminUsers.getPost(userAux));
+                return answer;
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }
