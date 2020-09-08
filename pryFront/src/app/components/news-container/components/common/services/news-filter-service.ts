@@ -4,7 +4,6 @@ import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from '../directives/sortable.directive';
 import { NewsModel } from '../models/news.model';
-import { COUNTRIES } from '../../../../countries';
 
 interface SearchResult {
   news: NewsModel[];

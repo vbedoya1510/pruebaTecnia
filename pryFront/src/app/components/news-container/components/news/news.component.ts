@@ -37,13 +37,8 @@ export class NewsComponent implements OnInit {
   }
 
   private showNews(){
-
     const userAux = localStorage.getItem('userId');
-    let data= {
-      'user_id':userAux
-    }
-
-    this.newsService.getNews(data).subscribe(
+    this.newsService.getNews(userAux).subscribe(
       response => {
         if(response!= null){
           var listAux : NewsModel [] = [];
@@ -78,10 +73,7 @@ export class NewsComponent implements OnInit {
   }
 
   public Delete(news_id: number){
-    let data= {
-      'post_id' : news_id
-    }
-    this.newsService.deleteNew(data).subscribe(
+    this.newsService.deleteNew(news_id).subscribe(
       response => {
         if(response){
           var listAux : NewsModel [] = [];
